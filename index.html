@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Gimolo</title>
+  <link rel="icon" href="favicon.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg"></div>
+
+  <div class="app">
+    <!-- If JS fails to boot, we still show the spin screen (and an error message). -->
+    <div id="fatal" class="fatal" hidden></div>
+    <!-- Top bar (no gray logo box, no tagline) -->
+    <header class="topbar">
+      <div class="brand">
+        <img class="brandLogo" src="logo.png" alt="Gimolo" />
+        <div class="brandName">Gimolo</div>
+      </div>
+
+      <button class="soundPill" id="soundToggle" aria-pressed="true">
+        <span class="soundIcon">🔊</span>
+        <span class="soundLabel">Sound</span>
+        <span class="switch"><span class="knob"></span></span>
+      </button>
+
+      <button class="iconBtn" id="profileBtnTop" aria-label="Profile">👤</button>
+    </header>
+
+    <main class="main">
+      <!-- SPIN -->
+    <section class="screen screen--active" id="screenSpin" aria-label="Spin screen">
+      <div class="spinArea">
+        <button class="spinWheel" id="spinWheel" aria-label="Spin for a spark">
+          <span class="spinText">SPIN</span>
+        </button>
+
+        <div class="spinLine" id="spinLine">One gentle step. You’re doing great.</div>
+        <div class="spinMicro" id="matchesText">Matches: 0</div>
+
+        <div class="facesRow" role="tablist" aria-label="Personality">
+          <button class="face face--active" data-tone="classic" aria-pressed="true"><span class="emoji">🙂</span><span class="txt">Classic</span></button>
+          <button class="face" data-tone="warm" aria-pressed="false"><span class="emoji">😊</span><span class="txt">Warm</span></button>
+          <button class="face" data-tone="grumpy" aria-pressed="false"><span class="emoji">😒</span><span class="txt">Grumpy</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FILTERS -->
+      <section class="screen" id="screenFilters">
+        <div class="card pad">
+          <div class="hdrBig">Filters</div>
+
+          <div class="filterBlock">
+            <div class="filterLabel">Time</div>
+            <div class="seg">
+              <button class="segBtn segBtn--active" data-filter="time" data-value="any">Any</button>
+              <button class="segBtn" data-filter="time" data-value="0-5">0–5</button>
+              <button class="segBtn" data-filter="time" data-value="10">10</button>
+              <button class="segBtn" data-filter="time" data-value="20+">20+</button>
+            </div>
+          </div>
+
+          <div class="filterBlock">
+            <div class="filterLabel">Effort</div>
+            <div class="seg">
+              <button class="segBtn segBtn--active" data-filter="effort" data-value="any">Any</button>
+              <button class="segBtn" data-filter="effort" data-value="Light">Light</button>
+              <button class="segBtn" data-filter="effort" data-value="Medium">Medium</button>
+              <button class="segBtn" data-filter="effort" data-value="High">High</button>
+            </div>
+          </div>
+
+          <div class="filterBlock">
+            <div class="filterLabel">Location</div>
+            <div class="seg">
+              <button class="segBtn segBtn--active" data-filter="location" data-value="Either">Either</button>
+              <button class="segBtn" data-filter="location" data-value="Indoor">Indoor</button>
+              <button class="segBtn" data-filter="location" data-value="Outdoor">Outdoor</button>
+            </div>
+          </div>
+
+          <div class="filterBlock">
+            <label class="checkRow">
+              <input type="checkbox" id="civicOnly" />
+              <span>Community actions only</span>
+            </label>
+          </div>
+
+          <button class="btnPrimary btnFull" id="filtersDone">Done</button>
+        </div>
+      </section>
+
+      <!-- ACTIVITY -->
+      <section class="screen" id="screenActivity">
+        <div class="activityGame card" id="activityCard">
+          <div class="lanePill" id="activityLane">A GENTLE SPARK</div>
+
+          <div class="activityTitle" id="activityTitle">Two-Minute Story</div>
+          <div class="activityDesc" id="activityDesc">Tell a 2-minute story where every sentence starts with “Suddenly…”.</div>
+
+          <div class="readyLine" id="readyLine">Ready?</div>
+
+          <button class="startBtn" id="startBtn">Start <span aria-hidden="true">→</span></button>
+          <button class="spinAgainLink" id="spinAgainBtn">Spin again</button>
+
+          <div class="metaLine" id="activityMeta">10 min • Indoor • Medium • Solo</div>
+        </div>
+      </section>
+
+      <!-- IN PROGRESS -->
+      <section class="screen" id="screenProgress">
+        <div class="activityGame card" id="progressCard">
+          <div class="lanePill" id="progressLane">IN PROGRESS</div>
+          <div class="activityTitle" id="progressTitle">Two-Minute Story</div>
+          <div class="activityDesc" id="progressDesc">Do it now. When you're done, tap Complete.</div>
+
+          <div class="progressBtns">
+            <button class="btnPrimary btnFull" id="completeBtn">Complete</button>
+            <button class="spinAgainLink" id="swapBtn">Swap activity</button>
+          </div>
+
+          <div class="metaLine" id="progressMeta">10 min • Indoor • Medium • Solo</div>
+        </div>
+      </section>
+
+      <!-- DONE -->
+      <section class="screen" id="screenDone">
+        <div class="doneCard card">
+          <div class="confettiLayer" id="confettiLayer" aria-hidden="true"></div>
+          <div class="doneTitle">Nice — you did it!</div>
+          <div class="muted">See! You showed up.</div>
+          <div class="doneButtons">
+            <button class="btnPrimary btnAlt" id="keepEnergyBtn">Keep this energy</button>
+            <button class="btnPrimary btnAlt2" id="switchVibeBtn">Switch the vibe</button>
+            <button class="btnGhost" id="surpriseBtn">Surprise me</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROFILE -->
+      <section class="screen" id="screenProfile">
+        <div class="card pad">
+          <div class="hdrBig">Profile</div>
+          <div class="muted">Your tiny moves add up.</div>
+
+          <div class="stats">
+            <div class="stat"><div class="statNum" id="statTotal">0</div><div class="statLbl">Total dots</div></div>
+            <div class="stat"><div class="statNum" id="statStreak">0</div><div class="statLbl">7-day streak</div></div>
+            <div class="stat"><div class="statNum" id="statCivic">0</div><div class="statLbl">Community dots</div></div>
+          </div>
+
+          <div class="subHdr">Recent dots</div>
+          <div class="muted" id="recentDotsText">No dots yet. Spin once — you’ll get your first spark.</div>
+
+          <div class="subHdr">Sound</div>
+          <div class="muted">Little beeps & sparkles.</div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Fixed bottom nav (static for all pages) -->
+    <nav class="bottomNav" aria-label="Primary">
+      <button class="navBtn navBtn--active" data-nav="spin"><span aria-hidden="true">🎡</span>Spin</button>
+      <button class="navBtn" data-nav="filters"><span aria-hidden="true">⚙️</span>Filters</button>
+      <button class="navBtn" data-nav="profile"><span aria-hidden="true">🟣</span>Profile</button>
+    </nav>
+  </div>
+
+  <!-- Countdown overlay -->
+  <div class="countdownOverlay" id="countdownOverlay" aria-hidden="true">
+    <div class="countNum" id="countNum">3</div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
